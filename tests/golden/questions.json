@@ -1,0 +1,27 @@
+[
+  {
+    "id": "G1-api-listing",
+    "url": "http://stage.babitalk.com/hospital/123",
+    "question": "이 페이지에서 호출하는 API endpoint를 전부 알려줘",
+    "expectedSubstrings": [
+      "hospitalApi.getHospitalById",
+      "hospitalApi.updateHospital"
+    ]
+  },
+  {
+    "id": "G2-dispatch-tracing",
+    "url": null,
+    "question": "hospital/setHospital 액션을 dispatch하는 파일을 찾아줘",
+    "expectedSubstrings": [
+      "HospitalDetailContainer.tsx"
+    ]
+  },
+  {
+    "id": "G3-impact-analysis",
+    "url": null,
+    "question": "apps/admin/src/domains/hospital/api/hospitalApi.ts를 수정하면 어디에 영향을 미쳐?",
+    "expectedSubstrings": [
+      "HospitalDetailContainer.tsx"
+    ]
+  }
+]
