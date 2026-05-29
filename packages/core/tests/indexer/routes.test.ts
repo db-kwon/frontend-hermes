@@ -19,4 +19,17 @@ describe("parseRoutes", () => {
         "apps/admin/src/domains/hospital/containers/HospitalDetailContainer.tsx",
     });
   });
+
+  it("resolves lazy + baseUrl imports in a legacy .js app", () => {
+    const project = createProject(FIXTURE_ROOT);
+    const routes = parseRoutes(project, FIXTURE_ROOT);
+    // const Home = retryLazy(() => import("components/pages/Home"))
+    // baseUrl: ./src, resolves to .../Home/index.js
+    expect(routes).toContainEqual({
+      app: "legacy_client",
+      path: "/home",
+      componentPath:
+        "apps/legacy_client/src/components/pages/Home/index.js",
+    });
+  });
 });

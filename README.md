@@ -9,25 +9,29 @@ babitalk 프론트엔드 모노레포에 특화된 로컬 AI Q&A 툴.
 ```bash
 pnpm install
 pnpm -r build
-pnpm --filter @hermes/cli link --global
+# 전역 bin으로 등록 (~/.local/bin 은 이미 PATH에 있음)
+chmod +x packages/cli/dist/index.js
+ln -sf "$PWD/packages/cli/dist/index.js" ~/.local/bin/fe-hermes
 ```
+
+> CLI 이름은 `fe-hermes` 입니다. (`hermes` 는 별도 도구가 점유 중)
 
 ## First-time setup
 
 ```bash
-hermes init
-# ~/.hermes/config.json 생성 + .env.example 가이드
+fe-hermes init
+# ~/.fe-hermes/config.json 생성 + .env.example 가이드
 cp .env.example .env
 # .env에 ANTHROPIC_API_KEY 입력
-export HERMES_TARGET_ROOT=/path/to/babitalk_monorepo_frontend
+export HERMES_TARGET_ROOT=~/repos/babitalk_monorepo_frontend
 ```
 
 ## Commands
 
 ```bash
-hermes index                                            # 인덱스 빌드 (대상 root에 .hermes/index.json)
-hermes ask -q "..." [-u <URL>] [-i screenshot.png]      # 단발 질의
-hermes chat [-u <URL>] [-i screenshot.png]              # 대화형 REPL
+fe-hermes index                                         # 인덱스 빌드 (대상 root에 .hermes/index.json)
+fe-hermes ask -q "..." [-u <URL>] [-i screenshot.png]   # 단발 질의
+fe-hermes chat [-u <URL>] [-i screenshot.png]           # 대화형 REPL
 ```
 
 공통 옵션: `--verbose` (tool 흐름) / `--debug` (raw I/O) / `--yes-i-know` (50K token 가드 무시)

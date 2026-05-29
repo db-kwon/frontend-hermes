@@ -5,6 +5,7 @@ import { parseRtkQueryApiCalls } from "./rtkQuery.js";
 import { parseAxiosCalls } from "./axios.js";
 import { parseFetchCalls } from "./fetch.js";
 import { parseSagaCalls } from "./saga.js";
+import { parseRequestObjectCalls } from "./requestObject.js";
 
 function hookName(endpointName: string, kind: "query" | "mutation"): string {
   const cap = endpointName.charAt(0).toUpperCase() + endpointName.slice(1);
@@ -16,7 +17,8 @@ export function parseApiCalls(project: Project, root: string): ApiCall[] {
   const ax = parseAxiosCalls(project, root);
   const ft = parseFetchCalls(project, root);
   const sg = parseSagaCalls(project, root);
-  const calls = [...rtk, ...ax, ...ft, ...sg];
+  const req = parseRequestObjectCalls(project, root);
+  const calls = [...rtk, ...ax, ...ft, ...sg, ...req];
 
   const byHook = new Map<string, ApiCall[]>();
   for (const call of rtk) {

@@ -92,5 +92,31 @@ export async function runAgent(args: RunAgentArgs): Promise<AgentResult> {
     return { text, toolCalls };
   }
 
-  throw new Error(`Agent exceeded maxIterations=${max}`);
+  // Tool budget exhausted: force one final answer WITHOUT tools instead of
+  // throwing away everything found so far. The model must answer from the
+  // evidence it has, or admit it couldn't find it.
+  messages.push({
+    role: "user",
+    content:
+      `최대 검색 횟수(${max})에 도달했습니다. 추가 도구 호출 없이, ` +
+      `지금까지 찾은 파일:라인 근거만으로 답하세요. ` +
+      `근거가 부족하면 무엇을 확인했고 왜 단정할 수 없는지 솔직히 설명하세요.`,
+  });
+  const finalResponse = await args.client.messages.create({
+    model: args.model,
+    max_tokens: 4096,
+    system: SYSTEM_PROMPT,
+    messages,
+  });
+  const finalText = finalResponse.content
+    .filter((c: any) => c.type === "text")
+    .map((c: any) => c.text)
+    .join("\n");
+  args.onTrace?.({ kind: "text", text: finalText });
+  return {
+    text:
+      finalText ||
+      `관련 코드를 찾지 못했습니다 (검색 ${max}회 소진). 질문의 키워드를 바꿔 다시 시도해 보세요.`,
+    toolCalls,
+  };
 }

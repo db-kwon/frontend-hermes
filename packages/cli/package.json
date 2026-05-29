@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "bin": {
-    "hermes": "dist/index.js"
+    "fe-hermes": "dist/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",

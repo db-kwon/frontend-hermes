@@ -9,11 +9,11 @@ import { runChatCommand } from "./commands/chat.js";
 import { readCommonFlags } from "./flags.js";
 
 const program = new Command();
-program.name("hermes").description("babitalk-front-hermes CLI").version("0.0.0");
+program.name("fe-hermes").description("babitalk-front-hermes CLI").version("0.0.0");
 
 program
   .command("init")
-  .description("First-time setup: create ~/.hermes/config.json + .env stub")
+  .description("First-time setup: create ~/.fe-hermes/config.json + .env stub")
   .action(async () => {
     const config = loadConfig();
     await runInitCommand({
