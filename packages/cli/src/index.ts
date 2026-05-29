@@ -5,6 +5,7 @@ import { loadConfig } from "./config.js";
 import { runInitCommand } from "./commands/init.js";
 import { runIndexCommand } from "./commands/index.js";
 import { runAskCommand } from "./commands/ask.js";
+import { runChatCommand } from "./commands/chat.js";
 import { readCommonFlags } from "./flags.js";
 
 const program = new Command();
@@ -54,6 +55,25 @@ program
       yesIKnow: flags.yesIKnow,
       model: config.model,
       ...(config.apiKey !== undefined && { apiKey: config.apiKey }),
+    });
+  });
+
+program
+  .command("chat")
+  .description("Interactive REPL")
+  .option("-u, --url <url>")
+  .option("-i, --image <path>")
+  .option("--verbose")
+  .action(async (opts) => {
+    const config = loadConfig();
+    if (!config.apiKey) throw new Error("ANTHROPIC_API_KEY not set");
+    await runChatCommand({
+      targetRoot: config.targetRoot,
+      ...(opts.url !== undefined && { url: opts.url }),
+      ...(opts.image !== undefined && { imagePath: opts.image }),
+      model: config.model,
+      apiKey: config.apiKey,
+      verbose: Boolean(opts.verbose),
     });
   });
 
