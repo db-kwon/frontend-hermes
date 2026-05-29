@@ -1,2 +1,1 @@
-// placeholder — real implementation added in Task 2
-export {};
+export const HERMES_CORE_VERSION = "0.0.0";
