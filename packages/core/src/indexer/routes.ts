@@ -8,23 +8,10 @@ function extractAppName(filePath: string, root: string): string | null {
   return match ? (match[1] ?? null) : null;
 }
 
-function resolveImport(
-  importPath: string,
-  fromFile: string,
-  root: string
-): string | null {
+function resolveImport(importPath: string, fromFile: string, root: string): string | null {
   if (!importPath.startsWith(".")) return null;
   const abs = path.resolve(path.dirname(fromFile), importPath);
-  const candidates = [
-    `${abs}.tsx`,
-    `${abs}.ts`,
-    `${abs}/index.tsx`,
-    `${abs}/index.ts`,
-  ];
-  for (const c of candidates) {
-    return path.relative(root, c).replace(/\\/g, "/");
-  }
-  return null;
+  return path.relative(root, `${abs}.tsx`).replace(/\\/g, "/");
 }
 
 export function parseRoutes(project: Project, root: string): Route[] {
