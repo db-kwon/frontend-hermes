@@ -5,6 +5,7 @@ import { parseRoutes } from "./routes.js";
 import { parseComponents } from "./components.js";
 import { parseApiCalls } from "./apiCalls/index.js";
 import { parseReduxUsage } from "./reduxUsage.js";
+import { buildFileGraph } from "./fileGraph.js";
 import type { IndexFile } from "../types/indexFile.js";
 
 function detectApps(root: string): string[] {
@@ -30,7 +31,7 @@ export function buildIndex(root: string): IndexFile {
     components,
     apiCalls,
     reduxUsage: parseReduxUsage(project, root),
-    fileGraph: {},
+    fileGraph: buildFileGraph(project, root),
   };
 }
 
