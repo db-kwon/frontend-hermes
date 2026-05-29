@@ -17,8 +17,8 @@ export function createProject(monorepoRoot: string): Project {
   });
 
   project.addSourceFilesAtPaths([
-    path.join(monorepoRoot, "apps/*/src/**/*.{ts,tsx}"),
-    path.join(monorepoRoot, "packages/*/src/**/*.{ts,tsx}"),
+    path.join(monorepoRoot, "apps/*/src/**/*.{ts,tsx,js,jsx}"),
+    path.join(monorepoRoot, "packages/*/src/**/*.{ts,tsx,js,jsx}"),
     `!${path.join(monorepoRoot, "**/node_modules/**")}`,
     `!${path.join(monorepoRoot, "**/dist/**")}`,
     `!${path.join(monorepoRoot, "**/build/**")}`,
