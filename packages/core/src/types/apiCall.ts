@@ -1,4 +1,4 @@
-export type ApiCallKind = "rtk-query" | "saga" | "axios" | "fetch";
+export type ApiCallKind = "rtk-query" | "saga" | "axios" | "fetch" | "request";
 
 export type ApiCall = {
   id: string;
