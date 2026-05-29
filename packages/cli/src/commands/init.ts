@@ -9,7 +9,7 @@ HERMES_TARGET_ROOT=
 `;
 
 export async function runInitCommand(args: InitArgs): Promise<void> {
-  const cfgDir = path.join(args.homeDir, ".hermes");
+  const cfgDir = path.join(args.homeDir, ".fe-hermes");
   fs.mkdirSync(cfgDir, { recursive: true });
   const cfgPath = path.join(cfgDir, "config.json");
   if (!fs.existsSync(cfgPath)) {
