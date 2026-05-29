@@ -9,13 +9,7 @@ function resolveRelativeImport(
 ): string | null {
   if (!importPath.startsWith(".")) return null;
   const abs = path.resolve(path.dirname(fromFile), importPath);
-  const candidates = [
-    `${abs}.tsx`,
-    `${abs}.ts`,
-    `${abs}/index.tsx`,
-    `${abs}/index.ts`,
-  ];
-  return path.relative(root, candidates[0]!).replace(/\\/g, "/");
+  return path.relative(root, `${abs}.tsx`).replace(/\\/g, "/");
 }
 
 export function parseComponents(project: Project, root: string): ComponentMap {
