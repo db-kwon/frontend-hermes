@@ -60,16 +60,28 @@ export async function runAgent(args: RunAgentArgs): Promise<AgentResult> {
             content: JSON.stringify(result ?? null),
           });
         } catch (err) {
+          const message = String((err as Error).message);
+          args.onTrace?.({
+            kind: "tool_result",
+            name: tu.name,
+            result: { error: message },
+          });
           toolResults.push({
             type: "tool_result",
             tool_use_id: tu.id,
             is_error: true,
-            content: String((err as Error).message),
+            content: message,
           });
         }
       }
       messages.push({ role: "user", content: toolResults });
       continue;
+    }
+
+    if (response.stop_reason === "max_tokens") {
+      throw new Error(
+        "Response truncated: stop_reason=max_tokens. Consider raising max_tokens."
+      );
     }
 
     const text = response.content
